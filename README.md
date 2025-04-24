@@ -244,6 +244,7 @@ SoundSphereEng — это простое веб-приложение для са
 | id            | UUID     | ✅       | Primary key                   |
 | preview_text  | TEXT     | ✅       | Отображаемый текст предложения|
 | transate_text | TEXT     | ✅       | Перевод на русский            |
+| type          | TEXT     | ✅       | Тип предложения               |
 | producer      | TEXT     | ❌       | Автор/источник предложения    |
 | created_at    | DATETIME | ✅       | Дата создания                 |
 | updated_at    | DATETIME | ✅       | Дата обновления               |
