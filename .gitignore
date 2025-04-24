@@ -1,0 +1,36 @@
+# Node.js
+node_modules/
+data/
+.env
+dist/
+build/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.DS_Store
+
+# VSCode
+.vscode/
+
+# Logs
+logs
+*.log
+*.gz
+
+# OS
+Thumbs.db
+ehthumbs.db
+.idea/
+
+# PM2 / runtime
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+
+*.sqlite
+*.sqlite-journal
+*.db
