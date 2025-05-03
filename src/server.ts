@@ -13,6 +13,10 @@ app.get('/ping', (req, res) => {
   res.send('Hello World! (UPD)123');
 });
 
+app.get('/api/v2/ping', (req, res) => {
+  res.send('[PING] V2');
+});
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
