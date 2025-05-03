@@ -9,7 +9,7 @@ const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:8080'
 
 // Включаем CORS для всех источников
 app.use(cors({
-    origin: CLIENT_URL,
+    origin: '*',
 }));
 
 app.get('/ping', (req, res) => {
