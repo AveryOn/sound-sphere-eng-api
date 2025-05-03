@@ -17,7 +17,6 @@ app.use((req, res, next) => {
     res.status(403).send('Origin not allowed');
     return
   }
-
   next();
 });
 
