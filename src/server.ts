@@ -7,6 +7,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:8080'
 
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  next()
+})
+
+
 // Включаем CORS для всех источников
 app.use(cors({
   origin: [
@@ -21,6 +30,8 @@ app.use(cors({
     'http://localhost:4558',
   ],
 }));
+
+
 
 app.get('/ping', (req, res) => {
   res.send('Hello World!as');
