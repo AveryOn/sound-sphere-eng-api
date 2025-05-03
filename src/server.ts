@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:8080'
 
 // Включаем CORS для всех источников
@@ -20,6 +20,6 @@ app.get('/api/v2/ping', (req, res) => {
   res.send('[PING] V2');
 });
 
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server listening at http://localhost:${PORT}`);
 });
