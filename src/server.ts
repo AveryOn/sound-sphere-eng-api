@@ -8,9 +8,22 @@ const PORT = process.env.PORT || 3000;
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:8080'
 
 
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  console.log('Origin:', origin);
+
+  // Пример: блочим всё, кроме нужного
+  if (!origin || origin !== CLIENT_URL) {
+    res.status(403).send('Origin not allowed');
+    return
+  }
+
+  next();
+});
+
 // Включаем CORS для всех источников
 app.use(cors({
-  origin: CLIENT_URL,
+  origin: '*',
 }));
 
 app.get('/ping', (req, res) => {
