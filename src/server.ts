@@ -10,7 +10,7 @@ app.use(cors({
 }));
 
 app.get('/ping', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello World! asd');
 });
 
 app.listen(port, () => {
