@@ -24,7 +24,7 @@ app.get('/api/v2/ping', (req, res) => {
 });
 
 app.get('/api/auth/check', (req, res) => {
-  console.log()
+  console.log(req.cookies)
   if(req.cookies['token'] === 'abc123') {
     res.send({
       id: 'abc123',
