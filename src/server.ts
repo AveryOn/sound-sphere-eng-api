@@ -19,7 +19,7 @@ app.get('/api/v2/ping', (req, res) => {
   res.send('[PING] V2');
 });
 
-app.get('api/auth/check', (req, res) => {
+app.get('/api/auth/check', (req, res) => {
   res.send({
     id: 'abc123',
     username: 'alex.id',
