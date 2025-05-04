@@ -1,14 +1,18 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv'
 dotenv.config()
 
-const app = express();
 const PORT = process.env.PORT || 3000;
+
+const app = express();
+app.use(cookieParser());
 
 // Включаем CORS для всех источников
 app.use(cors({
   origin: '*',
+  credentials: true,
 }));
 
 app.get('/ping', (req, res) => {
@@ -20,12 +24,18 @@ app.get('/api/v2/ping', (req, res) => {
 });
 
 app.get('/api/auth/check', (req, res) => {
-  res.send({
-    id: 'abc123',
-    username: 'alex.id',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  });
+  console.log()
+  if(req.cookies['token'] === 'abc123') {
+    res.send({
+      id: 'abc123',
+      username: 'alex.id',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }); return
+  }
+  else {
+    res.status(401).send({ message: 'Unauthorized' }); return
+  }
 });
 
 app.listen(PORT, () => {
