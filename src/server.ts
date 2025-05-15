@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
+import { usersTable } from './db/schema';
 
 const client = createClient({ 
   url: process.env.DB_FILE_NAME! 
@@ -15,6 +16,8 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Включаем CORS для всех источников
 app.use(cors({
@@ -28,6 +31,23 @@ app.get('/ping', (req, res) => {
 
 app.get('/api/v2/ping', (req, res) => {
   res.send('[PING] V2');
+});
+
+/* 
+  ### USERS
+*/
+app.post('/api/v1/users/create', async (req, res) => {
+  const userData = req.body
+  userData.id = crypto.randomUUID()
+  userData.createdAt = new Date().toISOString()
+  userData.updatedAt = new Date().toISOString()
+  const data = await db.insert(usersTable).values(userData);
+  res.send(data);
+});
+
+app.get('/api/v1/users/', async (req, res) => {
+  const users = await db.select().from(usersTable)
+  res.send(users);
 });
 
 app.get('/api/auth/check', (req, res) => {
