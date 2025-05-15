@@ -244,80 +244,91 @@ SoundSphereEng — это простое веб-приложение для са
 
 ## 📦 Database Schema (SQLite)
 
-### 1. `themes`
-| Field        | Type     | Required | Description              |
-|--------------|----------|----------|--------------------------|
-| id           | UUID     | ✅       | Primary key              |
-| title        | TEXT     | ✅       | Название темы            |
-| color        | TEXT     | ❌       | Цвет темы (опционально)  |
-| created_at   | DATETIME | ✅       | Дата создания            |
-| updated_at   | DATETIME | ✅       | Дата обновления          |
+### 1. `users`
+| Field      | Type        | Required  | Description                  |
+| -----------| ----------- | --------  | ---------------------------- |
+| id         | UUID        | ✅        | Primary key                  |
+| username   | VARCHAR(50) | ✅        | Уникальный никнейм           |
+| password   | TEXT        | ✅        | Пароль (хеш/UUID/что хочешь) |
+| created_at | DATETIME    | ✅        | Дата создания                |
+| updated_at | DATETIME    | ✅        | Дата обновления              |
 
 ---
 
-### 2. `sentences`
-| Field         | Type     | Required | Description                   |
-|---------------|----------|----------|-------------------------------|
-| id            | UUID     | ✅       | Primary key                   |
-| preview_text  | TEXT     | ✅       | Отображаемый текст предложения|
-| transate_text | TEXT     | ✅       | Перевод на русский            |
-| type          | TEXT     | ✅       | Тип предложения               |
-| producer      | TEXT     | ❌       | Автор/источник предложения    |
-| created_at    | DATETIME | ✅       | Дата создания                 |
-| updated_at    | DATETIME | ✅       | Дата обновления               |
+### 2. `themes`
+| Field      | Type     | Required  | Description             |
+| -----------| -------- | --------  | ----------------------- |
+| id         | UUID     | ✅        | Primary key             |
+| title      | TEXT     | ✅        | Название темы           |
+| color      | TEXT     | ❌        | Цвет темы (опционально) |
+| user_id    | UUID     | ✅        | FK на `users.id`        |
+| created_at | DATETIME | ✅        | Дата создания           |
+| updated_at | DATETIME | ✅        | Дата обновления         |
 
 ---
 
-### 3. `evalutions`
-| Field        | Type     | Required | Description                          |
-|--------------|----------|----------|--------------------------------------|
-| id           | UUID     | ✅       | Primary key                          |
-| sprint_id    | UUID     | ✅       | FK на `sprints.id`                   |
-| theme_id     | UUID     | ✅       | FK на `themes.id`                    |
-| sentence_id  | UUID     | ✅       | FK на `sentences.id`                 |
-| success      | BOOLEAN  | ✅       | Успешность прохождения (true/false)  |
-| created_at   | DATETIME | ✅       | Дата создания                        |
-| updated_at   | DATETIME | ✅       | Дата обновления                      |
+### 3. `sentences`
+
+| Field          | Type     | Required | Description                                     |
+| -------------- | -------- | -------- | ----------------------------------------------  |
+| id             | UUID     | ✅        | Primary key                                    |
+| theme_id       | UUID     | ✅        | FK на `themes.id`                              |
+| preview_text   | TEXT     | ✅        | Отображаемый текст                             |
+| transate_text  | TEXT     | ✅        | Перевод на русский                             |
+| type           | TEXT     | ✅        | Тип предложения (например, вопрос/утверждение) |
+| producer       | TEXT     | ❌        | Автор или источник                             |
+| created_at     | DATETIME | ✅        | Дата создания                                  |
+| updated_at     | DATETIME | ✅        | Дата обновления                                |
 
 ---
 
 ### 4. `sprints`
-| Field        | Type     | Required | Description         |
-|--------------|----------|----------|---------------------|
-| id           | UUID     | ✅       | Primary key         |
-| created_at   | DATETIME | ✅       | Дата создания       |
-| updated_at   | DATETIME | ✅       | Дата обновления     |
+
+| Field      | Type     | Required  | Description       |
+| -----------| -------- | --------  | ----------------- |
+| id         | UUID     | ✅        | Primary key       |
+| theme_id   | UUID     | ✅        | FK на `themes.id` |
+| created_at | DATETIME | ✅        | Дата создания     |
+| updated_at | DATETIME | ✅        | Дата обновления   |
 
 ---
 
-### 5. `sentence_priority`
-| Field         | Type     | Required | Description                      |
-|---------------|----------|----------|----------------------------------|
-| id            | UUID     | ✅       | Primary key                      |
-| theme_id      | UUID     | ✅       | FK на `themes.id`                |
-| sentence_id   | UUID     | ✅       | FK на `sentences.id`             |
-| display_count | INTEGER  | ✅       | Кол-во показов предложения       |
-| created_at    | DATETIME | ✅       | Дата создания                    |
-| updated_at    | DATETIME | ✅       | Дата обновления                  |
+### 5. `evalutions`
+
+| Field        | Type     | Required  | Description                        |
+| ------------ | -------- | --------  | ---------------------------------- |
+| id           | UUID     | ✅        | Primary key                        |
+| sprint_id    | UUID     | ✅        | FK на `sprints.id`                 |
+| theme_id     | UUID     | ✅        | FK на `themes.id`                  |
+| sentence_id  | UUID     | ✅        | FK на `sentences.id`               |
+| success      | BOOLEAN  | ❌        | Был ли ответ успешным (true/false) |
+| created_at   | DATETIME | ✅        | Дата создания                      |
+| updated_at   | DATETIME | ✅        | Дата обновления                    |
 
 ---
 
-### 6. `theme_priority`
-| Field         | Type     | Required | Description                 |
-|---------------|----------|----------|-----------------------------|
-| id            | UUID     | ✅       | Primary key                 |
-| theme_id      | UUID     | ✅       | FK на `themes.id`           |
-| display_count | INTEGER  | ✅       | Кол-во спринтов по теме     |
-| created_at    | DATETIME | ✅       | Дата создания               |
-| updated_at    | DATETIME | ✅       | Дата обновления             |
+### 6. `sentence_priority`
+
+| Field                 | Type     | Required  | Description                            |
+| ----------------------| -------- | --------  | -------------------------------------- |
+| id                    | UUID     | ✅        | Primary key                            |
+| theme_id              | UUID     | ✅        | FK на `themes.id`                      |
+| sentence_id           | UUID     | ✅        | FK на `sentences.id`                   |
+| invalid_count         | INTEGER  | ✅        | Кол-во раз, когда пользователь ошибся  |
+| invalid_answer_count  | INTEGER  | ✅        | Ошибки, где был ответ, но неправильный |
+| success_answer_count  | INTEGER  | ✅        | Успешные ответы                        |
+| display_count         | INTEGER  | ✅        | Сколько раз показывалось               |
+| created_at            | DATETIME | ✅        | Дата создания                          |
+| updated_at            | DATETIME | ✅        | Дата обновления                        |
 
 ---
 
-### 6. `users`
-| Field         | Type       | Required | Description                 |
-|---------------|------------|----------|-----------------------------|
-| id            | UUID       | ✅       | Primary key                 |
-| username      | VARCHAR(50)| ✅       | уникальный никнейм          |
-| password      | UUID       | ✅       | пароль (да пароль)          |
-| created_at    | DATETIME   | ✅       | Дата создания               |
-| updated_at    | DATETIME   | ✅       | Дата обновления             |
+### 7. `theme_priority`
+
+| Field         | Type     | Required | Description                  |
+| --------------| -------- | -------- | ---------------------------  |
+| id            | UUID     | ✅        | Primary key                 |
+| theme_id      | UUID     | ✅        | FK на `themes.id`           |
+| display_count | INTEGER  | ✅        | Сколько раз тема попадалась |
+| created_at    | DATETIME | ✅        | Дата создания               |
+| updated_at    | DATETIME | ✅        | Дата обновления             |

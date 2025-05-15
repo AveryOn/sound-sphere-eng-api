@@ -3,6 +3,13 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv'
 dotenv.config()
+import { drizzle } from 'drizzle-orm/libsql';
+import { createClient } from '@libsql/client';
+
+const client = createClient({ 
+  url: process.env.DB_FILE_NAME! 
+});
+const db = drizzle({ client });
 
 const PORT = process.env.PORT || 3000;
 
