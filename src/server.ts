@@ -47,7 +47,7 @@ app.post('/api/v1/users/create', async (req, res) => {
 
 app.get('/api/v1/users/', async (req, res) => {
   const users = await db.select().from(usersTable)
-  res.send(users);
+  res.send(users)
 });
 
 app.get('/api/auth/check', (req, res) => {
